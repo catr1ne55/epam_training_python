@@ -1,4 +1,5 @@
 def rstr2int(string):
+    """ Transforms the given string into it's numerical representation and returns it."""
     if string == '':
         return 0
     else:
@@ -9,5 +10,6 @@ def rstr2int(string):
             div = div // 10
             l += 1
         return cur + rstr2int(string[:len(string) - 1]) * 10 ** l
+
 
 print(rstr2int('abcd'))

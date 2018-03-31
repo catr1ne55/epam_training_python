@@ -3,6 +3,7 @@ import time
 
 
 def trace(func):
+    """ Decorator, counts work-time of given function and returns it."""
     @functools.wraps(func)
     def inner(*args, **kwargs):
         start = time.time()
@@ -13,6 +14,7 @@ def trace(func):
 
 @trace
 def useful(x):
+    """ Prints 2 in power of given number."""
     print(2 ** x)
 
 

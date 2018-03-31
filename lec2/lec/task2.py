@@ -1,4 +1,5 @@
 def str2int(string):
+    """Transforms the given string into it's numerical representation and returns it."""
     num = 0
     for s in string:
         cur = ord(s)

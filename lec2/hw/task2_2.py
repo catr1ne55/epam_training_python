@@ -19,7 +19,7 @@ def field_filter(field_name: str, *collection: list) -> dict:
     :type field_name: str
     :param collection: The values of chosen field.
     :type collection: list
-    :returns Selected field with it's values.
+    :returns Selected field with its values.
     :rtype dict
     """
     fields2filter = {}
@@ -37,7 +37,7 @@ def query(collection: list, select, *field_filters) -> list:
     :type select: list
     :param field_filters: One or more filters to choose suitable parameters.
     :type dict
-    :returns Filtered list which contains nly selected fields.
+    :returns Filtered list which contains only selected fields.
     :rtype list
 
     """

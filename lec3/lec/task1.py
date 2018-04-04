@@ -1,9 +1,9 @@
-def rstr2int(string):
+def recursive_str2int(string):
     """ Transforms the given string into it's numerical representation and returns it.
 
-    :param string: String to transform
+    :param string: String to transform.
     :type string: str
-    :returns Numerical representatoin of string.
+    :returns Numerical representation of string.
     :rtype int
     """
     if string == '':
@@ -15,7 +15,7 @@ def rstr2int(string):
         while divided > 0:
             divided = divided // 10
             length += 1
-        return current + rstr2int(string[:len(string) - 1]) * 10 ** length
+        return current + recursive_str2int(string[:len(string) - 1]) * 10 ** length
 
 
-print(rstr2int('abcd'))
+print(recursive_str2int('abcd'))

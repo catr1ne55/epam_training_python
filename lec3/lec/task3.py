@@ -2,7 +2,13 @@ import functools
 
 
 def validate(low_bound, upper_bound):
-    """ Decorator, validates if given arguments are in the allowed range."""
+    """ Decorator, validates if given arguments are in the allowed range.
+
+    :param low_bound: Low bound of range.
+    :type low_bound: int
+    :param upper_bound: Upper bound of range.
+    :type upper_bound: int
+    """
     def wrap_func(func):
         @functools.wraps(func)
         def inner(*args):
@@ -21,6 +27,12 @@ def validate(low_bound, upper_bound):
 
 @validate(low_bound=0, upper_bound=256)
 def set_pixel(pixel_values):
+    """ Print the message.
+    :param pixel_values: Three numbers which represent pixel values.
+    :type pixel_values: tuple
+    :returns Nothing.
+    :rtype None
+    """
     return "Pixel created!"
 
 

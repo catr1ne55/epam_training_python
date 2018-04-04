@@ -3,7 +3,7 @@ import time
 
 
 def trace(func):
-    """ Decorator, counts work-time of given function and returns it.
+    """ Decorator which counts work-time of given function and returns it.
 
     :param func: Function to handle.
     :type func: function

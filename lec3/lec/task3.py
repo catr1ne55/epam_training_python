@@ -14,8 +14,8 @@ def validate(low_bound, upper_bound):
         def inner(*args):
             res = True
             for arg in args:
-                for a in arg:
-                    if not low_bound <= a <= upper_bound:
+                for value in arg:
+                    if not low_bound <= value <= upper_bound:
                         res = False
             if res is False:
                 return "Function call is not valid!"

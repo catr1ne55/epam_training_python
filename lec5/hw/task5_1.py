@@ -183,10 +183,11 @@ class Matrix:
             return mirrored_matrix.is_symmetric_main_diag()
 
 
-m = Matrix(2, 3)
-m.show()
-m.transpose().show()
+if __name__ == '__main__':
+    m = Matrix(2, 3)
+    m.show()
+    m.transpose().show()
 
-m1 = Matrix([[1,2,0], [3,4,2], [0,3,1]])
-print(m1.is_symmetric_main_diag())
-m1.transpose().show()
+    m1 = Matrix([[1, 2, 0], [3, 4, 2], [0, 3, 1]])
+    print(m1.is_symmetric_main_diag())
+    m1.transpose().show()

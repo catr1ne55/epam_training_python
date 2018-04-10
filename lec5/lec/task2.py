@@ -67,6 +67,7 @@ class Student(SchoolMember):
         print('Создан Student: ' + self.name)
 
 
-persons = [Teacher("Mr.Teacher", 40, 30), Student("Some Student", 16, 10)]
-for p in persons:
-    p.show()
+if __name__ == '__main__':
+    persons = [Teacher("Mr.Teacher", 40, 30), Student("Some Student", 16, 10)]
+    for p in persons:
+        p.show()

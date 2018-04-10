@@ -45,7 +45,8 @@ class Wine:
         return years
 
 
-v = Wine('a', 'bb', 'F', datetime.date(1956, 11, 10), 'short note')
-v.note = "sfsfsfs"
-print(v.note)
-print(v.count(datetime.date(2000, 11, 2)))
+if __name__ == '__main__':
+    v = Wine('a', 'bb', 'F', datetime.date(1956, 11, 10), 'short note')
+    v.note = "sfsfsfs"
+    print(v.note)
+    print(v.count(datetime.date(2000, 11, 2)))

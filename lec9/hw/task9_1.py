@@ -28,13 +28,12 @@ class Manager:
         Иначе - записываем в файл дату, время выполнения и информацию об ошибке(тип исключения и сообщение). """
 
         if exc_type is not None:
-            self.file = open(self.filename, 'w')
             current_date = datetime.datetime.now()
             working_time = time.time() - self.start
-            self.file.write("Дата: " + current_date.strftime("%d-%m-%Y") + '\n')
-            self.file.write("Время выполнения кода = " + str(working_time) + '\n')
-            self.file.write("Информация об ошибке: " + '\n' + traceback.format_exception_only(exc_type, exc_val)[0])
-            self.file.close()
+            with open(self.filename, 'w') as file:
+                file.write("Дата: " + current_date.strftime("%d-%m-%Y") + '\n')
+                file.write("Время выполнения кода = " + str(working_time) + '\n')
+                file.write("Информация об ошибке: " + '\n' + traceback.format_exception_only(exc_type, exc_val)[0])
 
 
 if __name__ == '__main__':

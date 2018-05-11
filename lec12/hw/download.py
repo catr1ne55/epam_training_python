@@ -18,14 +18,12 @@ TOTAL_BYTES = 0
 LOCK = threading.Lock()
 
 
-def download_file(url, filepath, size):
+def download_file(url_names, size):
     """
     Function to download image by its url.
 
-    :param url: The URL with image to download.
-    :type url: str
-    :param filepath: New name of image, the path, where it will be saved.
-    :type filepath: str
+    :param url_names: The URL with image to download and  the path, where it will be saved.
+    :type url_names: tuple
     :param size: Size of image after its processing.
     :type size: list
     :return: None
@@ -33,23 +31,25 @@ def download_file(url, filepath, size):
     global TOTAL_BYTES
     global ERRORS_COUNTER
     global FILES
-    print("Downloading from {}".format(url.strip()))
+    url = url_names[0].strip()
+    filepath = url_names[1]
     try:
+        print("Downloading from {}".format(url))
         response = requests.get(url)
         with LOCK:
             TOTAL_BYTES += len(response.content)
+            FILES += 1
         img = Image.open(requests.get(url, stream=True).raw)
         img.thumbnail(size)
         img.convert('RGB').save(filepath, "JPEG")
-        FILES += 1
-        print("Done.")
+        print("Downloaded from {}.".format(url))
     except Exception as e:
         print("An error: {}".format(e))
         with LOCK:
             ERRORS_COUNTER += 1
 
 
-def get_images(url_file, directory, size):
+def get_images(url_file, directory, threads, size):
     """
     Function to download images using file with urls.
 
@@ -65,11 +65,25 @@ def get_images(url_file, directory, size):
         os.makedirs(directory)
     size_list = [int(i) for i in size.split('x')]
     with open(url_file, 'r') as links:
-        url_list = enumerate(links.readlines())
-        size_of_urlfile = len(links.readlines())
-    for url in url_list:
-        save_as = str(url[0]).zfill(size_of_urlfile) + '.jpeg'
-        download_file(url[1], os.path.join(directory, save_as), size_list)
+        url_list = links.readlines()
+    size_of_urlfile = len(url_list)
+    enumerated_list = []
+
+    for i in range(size_of_urlfile):
+        save_as = os.path.join(directory, str(i).zfill(size_of_urlfile) + '.jpeg')
+        enumerated_list.append((url_list[i], save_as))
+    print(enumerated_list)
+
+    thread_pool = ThreadPool(threads)
+    function = lambda x:download_file(x,size=size_list)
+    thread_pool.map(function, enumerated_list)
+
+#    for url in url_list:
+#        save_as = str(url[0]).zfill(size_of_urlfile) + '.jpeg'
+#        download_file(url[1], os.path.join(directory, save_as), size_list)
+
+    thread_pool.close()
+    thread_pool.join()
 
 
 if __name__ == '__main__':
@@ -85,12 +99,13 @@ if __name__ == '__main__':
     if not os.path.exists(args.filename):
         raise FileExistsError("This file {} doesn't exist! Can't start downloading!".format(args.filename))
 
-    thread_pool = ThreadPool(int(args.threads))
+    #thread_pool = ThreadPool(int(args.threads))
     start_time = time.time()
-    thread_pool.apply(get_images, (args.filename, args.dir, args.size))
+    get_images(args.filename, args.dir, int(args.threads), args.size)
+    #thread_pool.apply(get_images, (args.filename, args.dir, args.size))
     total_time = time.time() - start_time
-    thread_pool.close()
-    thread_pool.join()
+    #thread_pool.close()
+    #thread_pool.join()
 
     print('-------')
     print("Downloaded {} images.".format(FILES))

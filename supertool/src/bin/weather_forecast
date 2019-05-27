@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+"""
+Weather forecast entrypoint
+"""
+
+import argparse
+import supertool.weather as forecast
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Get weather forecast for given location')
+
+    parser.add_argument('location', type=str,
+                        help='Address(city, street, housenumber), where you want to know the weather')
+    parser.add_argument('--fivedays', type=bool, help='Full weather forecast on 5 days')
+
+    args = parser.parse_args()
+    coordinates = forecast.get_coordinates(args.location)
+    latitude = coordinates[0]
+    longitude = coordinates[1]
+    print("Weather in {}".format(args.location))
+    if args.fivedays is True:
+        data = forecast.get_5days_weather_by_coordinates(latitude, longitude)
+        for d in data['list']:
+            print("Forecast for {}:".format(d['dt_txt']))
+            print("Weather conditions: {}".format(d['weather'][0]['description']))
+            print("Temperature is {} C".format(d['main']['temp']))
+            print("Pressure is {}".format(d['main']['pressure']))
+            print("Humidity is {} %".format(d['main']['humidity']))
+            print("Wind speed {} m/s".format(d['wind']['speed']))
+            print('-----')
+    else:
+        data = forecast.get_weather_by_coordinates(latitude, longitude)
+        print("Forecast for now")
+        print("Weather conditions: {}".format(data['weather'][0]['description']))
+        print("Temperature is {} C".format(data['main']['temp']))
+        print("Pressure is {}".format(data['main']['pressure']))
+        print("Humidity is {} %".format(data['main']['humidity']))
+        print("Wind speed {} m/s".format(data['wind']['speed']))
+
+
